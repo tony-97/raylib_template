@@ -19,6 +19,12 @@ _INCLUDED_AS_CONFIG := $(filter $(_LAST_MK),$(firstword $(MAKEFILE_LIST)))
 ifneq ($(_INCLUDED_AS_CONFIG),)
 include Makefile.vars
 endif
+
+#==============================================================================
+# BUILD-ONLY section — everything below only applies when building the
+# lib itself, not when included by the root Makefile for consumer config.
+#==============================================================================
+ifneq ($(_INCLUDED_AS_CONFIG),)
 #TODO HANDLE CPP AND C STANDARD SEPARATLY AND THEM MERGE ON CFLAGS AN CXXFLAGSendif
 
 EXEC_NAME := app
@@ -146,6 +152,7 @@ endif
 export
 
 .PHONY: all lib run run_valgrind run_cgdb info clean cleanall build-libs clean-libs cleanall-libs info-libs
+.PHONY: all lib run run_valgrind run_cgdb info clean cleanall build-libs clean-libs cleanall-libs info-libs
 
 all:
 	@$(MAKE) -f Makefile.rules all
@@ -167,6 +174,9 @@ build-libs:
 
 info-libs:
 	@$(MAKE) -f Makefile.rules info-libs
+
+info:
+	@$(MAKE) -f Makefile.rules info
 
 info:
 	@$(MAKE) -f Makefile.rules info
