@@ -112,7 +112,7 @@ ifeq ($(TARGET),LINUX)
     RELEASE_FLAGS += -march=native -Ofast -s -DNDEBUG
     WFLAGS   += 
     CPPFLAGS += 
-    CXXFLAGS += 
+    CXXFLAGS += -std=c++20
     CFLAGS   += 
     LDLIBS   += 
     LDFLAGS  += 

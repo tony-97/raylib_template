@@ -36,8 +36,6 @@ ifndef MSVC
     LDFLAGS += -flto
 endif
 
-BACKEND ?= PLATFORM_DESKTOP_GLFW
-
 RAYLIB_VERSION     := 6.0.0
 RAYLIB_API_VERSION := 600
 
@@ -59,6 +57,9 @@ endif
 
 DEFINES += $(BACKEND) $(GRAPHICS)
 
+X11 = 1
+WAYLAND = 0
+
 #==============================================================================
 # System library dependencies
 #==============================================================================
@@ -74,7 +75,7 @@ ifneq ($(filter PLATFORM_DESKTOP_GLFW PLATFORM_DESKTOP_SDL PLATFORM_DESKTOP_RGFW
     ifeq ($(TARGET),LINUX)
         # NOTE: Required packages: libegl1-mesa-dev
         LDLIBS += -lGL -lpthread -ldl -lrt
-        ifdef X11
+        ifeq ($(X11),1)
             DEFINES += _GLFW_X11
             LDLIBS  += -lX11
         endif
@@ -88,7 +89,7 @@ endif
 ifeq ($(BACKEND),PLATFORM_DESKTOP_GLFW)
     ifneq ($(filter LINUX WINDOWS OSX,$(TARGET)),)
         ifeq ($(TARGET),LINUX)
-            ifdef WAYLAND
+            ifdef ($(WAYLAND),1)
                 LDFLAGS += $(shell pkg-config wayland-client wayland-cursor wayland-egl xkbcommon --libs)
 
                 WL_PROTOCOLS_DIR := external/glfw/deps/wayland
