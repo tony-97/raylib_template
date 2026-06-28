@@ -70,7 +70,9 @@ endif
 # Desktop backends — common system libs
 ifneq ($(filter PLATFORM_DESKTOP_GLFW PLATFORM_DESKTOP_SDL PLATFORM_DESKTOP_RGFW,$(BACKEND)),)
     ifeq ($(TARGET),WINDOWS)
+    ifndef MSVC
         LDLIBS += -static-libgcc -lopengl32 -lgdi32 -lwinmm
+    endif
     endif
     ifeq ($(TARGET),LINUX)
         # NOTE: Required packages: libegl1-mesa-dev
