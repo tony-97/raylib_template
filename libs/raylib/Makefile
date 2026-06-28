@@ -168,7 +168,7 @@ ifndef MSVC
 endif
 
 # GLFW include path (build-only — consumers use ./external/raylib/src/)
-ifeq ($(filter PLATFORM_DESKTOP_GLFW PLATFORM_WEB,$(BACKEND)),)
+ifneq ($(filter PLATFORM_DESKTOP_GLFW PLATFORM_WEB,$(BACKEND)),)
     INCLUDE_DIRS += $(SRC_DIR)/external/glfw/include
 endif
 
